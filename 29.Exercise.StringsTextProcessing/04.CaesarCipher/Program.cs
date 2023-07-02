@@ -8,8 +8,6 @@ internal class Program
 
         StringBuilder sb = new StringBuilder();
 
-        char[] encryptedChars = new char[text.Length];
-
         for (int i = 0; i < text.Length; i++)
         {
             char originalChar = text[i];
