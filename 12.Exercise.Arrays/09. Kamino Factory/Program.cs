@@ -18,7 +18,8 @@ internal class Program
     static void Main()
     {
         int sequenceLength = int.Parse(Console.ReadLine());
-        int bestIndex = 0;
+        // Fixed by MiroslavaTsaneva january 2024 :)
+        int bestSequenceIndex = 1;
         int bestStartIndex = int.MaxValue;
         int bestSum = 0;
         int bestCount = 0;
@@ -39,6 +40,11 @@ internal class Program
             int count = 0;
             int sum = 0;
             string[] sequenceArr = sequence.Split("!", StringSplitOptions.RemoveEmptyEntries);
+            if (bestSequence.Length == 0)
+            {
+                bestSequence = sequenceArr;
+            }
+
             for (int i = sequenceLength - 1; i >= 0; i--)
             {
                 if (sequenceArr[i] == "1")
@@ -49,7 +55,7 @@ internal class Program
                     {
                         bestSequence = sequenceArr;
                         bestStartIndex = i;
-                        bestIndex = index;
+                        bestSequenceIndex = index;
                         bestCount = count;
                         bestSum = sum;
                     }
@@ -61,7 +67,7 @@ internal class Program
             }
         }
 
-        Console.WriteLine($"Best DNA sample {bestIndex} with sum: {bestSum}.");
-        Console.WriteLine(string.Join(" ", bestSequence));
+        Console.WriteLine($"Best DNA sample {bestSequenceIndex} with sum: {bestSum}.");
+        Console.WriteLine($"RESULT {string.Join(" ", bestSequence)} KASSKATA");
     }
 }

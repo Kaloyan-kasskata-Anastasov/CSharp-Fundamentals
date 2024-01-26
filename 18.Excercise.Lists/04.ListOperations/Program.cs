@@ -9,8 +9,6 @@ Add 0
 end
 */
 
-using System;
-
 internal class Program
 {
     static void Main()

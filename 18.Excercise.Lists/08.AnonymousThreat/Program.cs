@@ -106,9 +106,9 @@ internal class Program
 
     private static int Clamp(int value, int min, int max)
     {
-        if (value < 0)
+        if (value < min)
         {
-            value = 0;
+            value = min;
         }
         else if (value > max)
         {
