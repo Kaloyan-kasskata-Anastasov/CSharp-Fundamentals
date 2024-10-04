@@ -1,27 +1,34 @@
-﻿using System;
+﻿/*9
+123
+323
+421
+121
+END
+*/
 
-internal class Program
+using System;
+
+class Program
 {
     static void Main()
     {
-        string numStr;
-
-        while ((numStr = Console.ReadLine()) != "END")
+        string numberAsString;
+        while ((numberAsString = Console.ReadLine()) != "END")
         {
-            Console.WriteLine(IsPalindrome(numStr));
+            Console.WriteLine(IsPalindrome(numberAsString));
         }
     }
 
-    public static bool IsPalindrome(string input)
+    static bool IsPalindrome(string palindromeString)
     {
-        string first = input.Substring(0, input.Length / 2);
-        char[] arr = input.ToCharArray();
+        string reversedString = Reverse(palindromeString);
+        return palindromeString == reversedString;
+    }
 
+    static string Reverse(string stringToReverse)
+    {
+        char[] arr = stringToReverse.ToCharArray();
         Array.Reverse(arr);
-
-        string temp = new string(arr);
-        string second = temp.Substring(0, temp.Length / 2);
-
-        return first.Equals(second);
+        return new string(arr);
     }
 }
