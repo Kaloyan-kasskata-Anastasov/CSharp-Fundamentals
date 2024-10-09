@@ -2,8 +2,22 @@
 {
     static void Main()
     {
-        string str = Console.ReadLine();
-        int a = str.Length % 2;
-        char middleChar = str[str.Length / 2];
+        string input = Console.ReadLine();
+
+        Console.WriteLine(GetMiddleChars(input));
+    }
+
+    static string GetMiddleChars(string text)
+    {
+        int middleIndex = text.Length / 2;
+
+        string result = $"{text[middleIndex]}";
+
+        if (text.Length % 2 == 0)
+        {
+            result = $"{text[middleIndex - 1]}" + result;
+        }
+
+        return result;
     }
 }
