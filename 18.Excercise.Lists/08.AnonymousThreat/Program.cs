@@ -19,20 +19,16 @@ divide 0 0
 3:1
 */
 
-using Microsoft.VisualBasic;
-
 internal class Program
 {
     static void Main()
     {
         List<string> list = Console.ReadLine().Split().ToList();
 
-        string commands = "";
-
-        while ((commands = Console.ReadLine()) != "3:1")
+        string command;
+        while ((command = Console.ReadLine()) != "3:1")
         {
-            string[] arguments = commands.Split();
-
+            string[] arguments = command.Split();
             switch (arguments[0])
             {
                 case "merge":
@@ -53,33 +49,33 @@ internal class Program
 
     static List<string> Merge(List<string> list, int startIndex, int endIndex)
     {
-        startIndex = Clamp(startIndex, 0, list.Count);
+        startIndex = Clamp(startIndex, 0, list.Count - 1);
         endIndex = Clamp(endIndex, 0, list.Count - 1);
 
-        string merged = string.Join("", list.GetRange(startIndex, endIndex - startIndex + 1));
+        List<string> range = list.GetRange(startIndex, endIndex - startIndex + 1);
+        string mergedStr = string.Join(string.Empty, range);
         list.RemoveRange(startIndex, endIndex - startIndex + 1);
-        list.Insert(startIndex, merged);
+
+        list.Insert(startIndex, mergedStr);
 
         return list;
     }
 
-    private static List<string> Divide(List<string> list, int index, int partitions)
+    static List<string> Divide(List<string> list, int index, int partitions)
     {
-        string element = list[index];
-
-        if (partitions <= 0)
+        if (partitions <= 0 || index < 0 || index > list.Count - 1)
         {
             return list;
         }
 
-        list.RemoveRange(index, 1);
+        string element = list[index];
+        List<string> newElements = new List<string>();
+
         int subLength = element.Length / partitions;
         int remainingChars = element.Length % partitions;
 
-        List<string> newElements = new List<string>();
-
         int elementIndex = 0;
-        for (int i = 0; i < partitions; i++)
+        for (int i = 1; i <= partitions; i++)
         {
             string newString = "";
             for (int j = 0; j < subLength; j++)
@@ -99,12 +95,12 @@ internal class Program
             }
         }
 
+        list.RemoveRange(index, 1);
         list.InsertRange(index, newElements);
-
         return list;
     }
 
-    private static int Clamp(int value, int min, int max)
+    static int Clamp(int value, int min, int max)
     {
         if (value < min)
         {
