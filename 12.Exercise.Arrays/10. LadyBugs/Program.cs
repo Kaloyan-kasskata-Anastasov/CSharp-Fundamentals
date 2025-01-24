@@ -1,97 +1,82 @@
 ﻿using System;
 using System.Linq;
 
-internal class Program
+class Program
 {
     static void Main()
     {
-        long fieldLength = int.Parse(Console.ReadLine());
+        // Fill the field (array) with ladybugs
+        int fieldLength = int.Parse(Console.ReadLine());
         int[] bugPlaces = Console.ReadLine()
             .Split()
             .Select(int.Parse)
             .ToArray();
 
-        long[] field = new long[fieldLength];
+        int[] field = new int[fieldLength];
 
         for (int i = 0; i < bugPlaces.Length; i++)
         {
-            int currentIndex = bugPlaces[i];
-            if (currentIndex >= 0 && currentIndex < field.Length)
+            int bugIndex = bugPlaces[i];
+            if (bugIndex >= 0 && bugIndex <= field.Length - 1)
             {
-                field[currentIndex] = 1;
+                field[bugIndex] = 1;
             }
         }
 
-        string command = string.Empty;
-
+        // Get the command lines. "end" stops the while loop
+        string command;
         while ((command = Console.ReadLine()) != "end")
         {
-            string[] elements = command.Split();
-            int bugIndex = int.Parse(elements[0]);
-            string direction = elements[1];
-            int flyLength = int.Parse(elements[2]);
+            // Parse the arguments
+            string[] arguments = command.Split();
+            int bugIndex = int.Parse(arguments[0]);
+            string direction = arguments[1];
+            int distance = int.Parse(arguments[2]);
 
-            if (bugIndex < 0 || bugIndex > field.Length - 1 || field[bugIndex] == 0)
+            // Move the bug
+            if (bugIndex >= 0 && bugIndex <= field.Length - 1 && field[bugIndex] == 1)
             {
-                continue;
-            }
-
-            field[bugIndex] = 0;
-
-            if (direction == "right")
-            {
-                int landIndex = bugIndex + flyLength;
-
-                if (landIndex > field.Length - 1)
+                field[bugIndex] = 0;
+                int landIndex;
+                switch (direction)
                 {
-                    continue;
-                }
-
-                if (field[landIndex] == 1)
-                {
-                    while (field[landIndex] == 1)
+                    case "right":
                     {
-                        landIndex += flyLength;
-                        if (landIndex > field.Length - 1)
+                        landIndex = bugIndex + distance;
+                        // Check if the land position is within the field's bounds AND if the cell is not empty
+                        while (landIndex >= 0 && landIndex <= field.Length - 1 && field[landIndex] == 1)
                         {
-                            break;
+                            landIndex += distance;
                         }
+
+                        // Check if the land position is within the field's bounds
+                        if (landIndex >= 0 && landIndex <= field.Length - 1)
+                        {
+                            field[landIndex] = 1;
+                        }
+
+                        break;
                     }
-                }
-
-                if (landIndex <= field.Length - 1)
-                {
-                    field[landIndex] = 1;
-                }
-            }
-            else if (direction == "left")
-            {
-                int landIndex = bugIndex - flyLength;
-
-                if (landIndex < 0)
-                {
-                    continue;
-                }
-
-                if (field[landIndex] == 1)
-                {
-                    while (field[landIndex] == 1)
+                    case "left":
                     {
-                        landIndex -= flyLength;
-                        if (landIndex < 0)
+                        landIndex = bugIndex - distance;
+                        while (landIndex >= 0 && landIndex <= field.Length - 1 && field[landIndex] == 1)
                         {
-                            break;
+                            landIndex -= distance;
                         }
-                    }
-                }
 
-                if (landIndex >= 0)
-                {
-                    field[landIndex] = 1;
+                        if (landIndex >= 0 && landIndex <= field.Length - 1)
+                        {
+                            field[landIndex] = 1;
+                        }
+
+                        break;
+                    }
                 }
             }
         }
 
+        // Print the state of the field
         Console.WriteLine(string.Join(" ", field));
     }
 }
