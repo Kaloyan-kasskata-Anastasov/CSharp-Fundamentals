@@ -16,7 +16,6 @@ internal class Program
         int index = -1;
         for (int i = 0; i < numbers.Length; i++)
         {
-            index = -1;
             int leftSum = 0;
             int rightSum = 0;
 
